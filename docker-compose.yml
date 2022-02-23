@@ -1,0 +1,25 @@
+version: '3'
+services:
+  postgres-server:
+    image: postgres:latest
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    env_file:
+      - postgres.env
+    networks:
+      - nesjs-network
+  nest-server:
+    image: nest-postgres:latest
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - executer-mongo
+    networks:
+      - nesjs-network
+networks:
+    nesjs-network:
+      driver: bridge
